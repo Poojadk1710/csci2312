@@ -1,8 +1,6 @@
 #include <iostream>
+#include "Student.h"
 
-
-int main()
-{
+int main(){
     return 0;
 }
-ß

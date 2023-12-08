@@ -1,0 +1,15 @@
+1  Atlanta
+2  Boston
+3  Chicago
+4  Dallas
+5  Denver
+6  Houston
+7  Los Angeles
+8  Memphis
+9  Miami
+10 New York
+11 Philadelphia
+12 Phoenix
+13 San Francisco
+14 Seattle
+15 Washington DC
