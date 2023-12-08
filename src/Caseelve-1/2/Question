@@ -1,0 +1,108 @@
+Problem #2: (30 marks)
+ACCEPT EXTRA CREDIT #2
+Adapt the program from the given code (below) so that:
+Uses vector instead of array to work for an unlimited number of numbers
+the program will ask the user for the input filename.
+Then, it reads the numbers from that file. The file will have one number per line
+Update the code so that all output (except for asking the user for the input file name) needs to be saved from the program to a file that is called the same as the input filename with the extension .RPT
+For example, if the input filename is numbers.txt, the output filename is numbers.txt.RPT
+Code
+main.cpp
+#include <iostream>
+    using std::cout;
+    using std::cin;
+    using std::endl;
+#include <iomanip>
+    using std::setw;
+
+#include <array>
+
+
+int main()
+{
+    //Initalizing Variables
+    const unsigned int MAX_GRADES{5};               // Number of grades to read
+    std::array<unsigned int, MAX_GRADES> grades;    // Stores the user grades
+    std::array<unsigned int, 10> histogram{0};      // Store the histogram.
+
+    // Read and store grades
+    for(size_t index{0}; index < MAX_GRADES; index++)
+    {
+        cout << "Enter Grade [" << index << "]: ";
+        cin >> grades[index];
+    }
+
+    // Compute Sum and Average
+    int sum{0};
+    float avg{0.0};
+    for(size_t index{0}; index < MAX_GRADES; index++)
+    {
+        cout << grades[index] << " | ";
+        sum += grades[index];
+    }
+    cout << endl;
+    avg = static_cast<float>(sum) / MAX_GRADES;
+    cout << "The grade sum is :" << sum <<endl;
+    cout << "The grade avg is :" << avg <<endl;
+
+    // Compute histogram histogram
+    for (int index{0}; index < MAX_GRADES; index++)
+    {
+        unsigned int gradeBucket{0};
+
+        if (grades[index] >= 100)
+            gradeBucket = 9; //last percentile
+        else
+            gradeBucket = grades[index] / 10;  // 95 -> 9, 55 -> 5
+
+        histogram[gradeBucket]++;
+    }
+    //Display Histogram
+    for (int bucket{0}; bucket < 10; bucket++)
+    {
+        cout << setw(2) << bucket << ":";
+        for(int i{0}; i < histogram[bucket]; i++)
+            cout << "|";
+        cout << endl;
+    }
+}
+
+Testing:
+There will be no test given for PA11. You should create your input file to test and debug your programs.
+
+Compiling:
+Here is an example of a g++ command that can be used to run your program:
+
+g++ -Wall -Wextra -pthre4ad -lpthread main.cpp Time.cpp -o time.exe
+
+Then run your program by:
+
+./time.exe
+
+Grading and Policies
+The homework grading combines completeness and correctness of the outputs and programming style.
+CODE STYLE
+A detailed review of the code (style and rules) will be conducted.
+Elements to be considered:
+Documentation Comments. (see style guide)
+Code Indentation
+Clarity of the code.
+Variable naming and scope.
+Proper use of tools
+This includes following the coding style discussed during lectures.
+Function declaration and definition placing.
+Using of appropriate C++ structures and operations (e.g., static_cast, array/vector, etc.)
+Thought process.
+Stream Input/Output
+File Processing
+NAMING CONVENTIONS
+Follow the naming conventions used so far in class.
+Variables should be localized with the correct scope datatype, and their names must be pnemonic.
+Coding style will be reviewed and your assessment grade may be impacted due to that as described in our syllabus.
+Remember that homework must be completed individually without help (human or AI).
+Submission
+BE AWARE
+You must commit and push to the Classroom repo to submit your assignment. No credit will be given for unsubmitted work.
+
+ACADEMIC DISHONESTY
+We reserve the right to run submissions through computer-based analysis to determine similarities to detect plagiarism.

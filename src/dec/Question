@@ -1,0 +1,448 @@
+Problem Description
+You will extend/modify your pa9 implementation. This assignment will focus on polymorphism (override virtual functions) and exception handling (try - throw - catch).
+
+Implementation Details
+Source Files
+Your main menu program will live inside a function called mainMenu which will take a library object as its only input parameter. It will return nothing. Put the prototype in a header function and the implementation in a menu.cpp file.
+
+Implement each class using a .h and .cpp (e.g., Book.h and Book.cpp) files.
+
+Menu Program
+Note: stricken through methods are removed from your P9 implementation and replaced for those described after.
+
+This program will display a menu providing the library's users with several functions. Again, the menu will be implemented as its own function using a menu.h and menu.cpp file.
+
+Your application will display the following menu on the terminal console:
+
+INFO
+Updated from pa9. Implement the necessary changes.
+
+---------------------------------
+            Main Menu
+---------------------------------
+1) Add Patron
+2) Add Book
+3) Search for Patron
+4) Search for Book
+5) Check Out Book
+6) Return Book
+                         99) EXIT
+---------------------------------
+
+As the program starts, it instantiates the Library class. This object will represent the library, and all the calls to implement options 1 through 4 should call methods from this object.
+
+The main menu (options 1-6,99) has the same behavior as in PA #9.
+
+Add Book Menu
+The main menu option 2 will present a sub-menu to allow the user to add a printed book, an Ebook, or an Audiobook. For each one, the program asks the user for the book's title and the relavant information. Then, it calls the library addPrintedBook, addEbook, or addAudioBook method.
+
+---------------------------------
+            Add Book Menu
+---------------------------------
+1) Add Printed Book
+2) Add Ebook
+3) Add Audiobook
+---------------------------------
+
+Option (1): ask the user for the information needed for a Printed Book, and then calls the Library addPrintedBook method to add it.
+Option (2): ask the user for the information needed for an EBook, and then calls the Library addEbook method to add it.
+Option (3): ask the user for the information needed for an Audiobook, and then calls the Library addAudiobook method to add it.
+DYNAMIC ALLOCATED OBJECTS
+All objects (library, patron, books, and loans) should be allocated dynamically using pointers.
+
+HANDLE EXCEPTIONS
+Your Library methods will throw exceptions in case of an incorrect use. You should handle these exceptions in your main application to prevent your application to abruptly terminate.
+
+Class Descriptions
+Getters and setter are not shown but you should still implement all relevant getters and setters.
+
+Class Library
+Member Variables
+name: string : Represents the name of the library
+
+patrons: vector<Patron*> : A vector used to store a list of all the patrons in the library
+
+loans: vector<Loan*> : A vector used to store all the loaned books and the patron who loaned it
+
+books: vector<Book*> : A vector used to store all the books present in the library
+
+printedbooks: vector<Book*> : A vector used to store all printed books present in the library
+
+ebooks: vector<Book*> : A vector used to store all ebooks present in the library
+
+audiobooks: vector<Book*> : A vector used to store all audiobooks present in the library
+
+Remember to allocate new Patron, Book, and Loan objects using dynamic memory and store a pointer to them in your vectors.
+
+Member Functions
+Constructors: initialize the object correctly. Be careful with initializing the vector objects.
+
+Destructor: deletes all loans, books, and patrons. Be careful with the order.
+
+searchBook: searches the books list for a book that matches the title. Returns the pointer to the object or nullptr. You will need to update this function because three vectors from pa9 are removed.
+
+searchPatron: searches the patrons list for a patron that matches the name. Returns the pointer to the object or nullptr.
+
+addPrintedBook: when a book with the given title does not exist already (uses searchBook), it creates a new PrintedBook and adds it to the printed books list. If the book exists, throw an invalid_argument exception with the message A book with the same title already exists. You will need to update this function to throw exception and because three vectors from pa9 are removed.
+
+addEBook: when a book with the given title does not exist already (uses searchBook), it creates a new EBook and adds it to the printed books list. If the book exists, throw an invalid_argument exception with the message A book with the same title already exists. You will need to update this function to throw exception and because three vectors from pa9 are removed.
+
+addAudioBook: when a book with the given title does not exist already (uses searchBook), it creates a new AudioBook and adds it to the books list. If the book exists, throw an invalid_argument exception with the message A book with the same title already exists. You will need to update this function to throw exception and because three vectors from pa9 are removed.
+
+addPatron: when a patron with the given name does not exist already (uses searchPatron), it creates a new Patron and adds it to the patrons list. If the patron exists, throw an invalid_argument exception with the message A patron with the same name already exists. You will need to update to throw exceptions.
+
+checkOutBook: takes a book, a patron and a date’s data (checks object pointers are not null). If the book is not checked out, create a Loan object for that book, patron, and date, and add it to the loans list. Adds the book to the patrons (addChekedBook) and the patron to the book (checkOut). Otherwise, throw an invalid_argument exception with the message The book is not available for check out. You will need to update to throw exceptions.
+
+returnBook: takes a book and a patron (checks not null). Searches for the loan that has that book and patron. When found, remove the book from the patron object and remove the patron from the book object. Finally, remove the Loan pointer from the loans list. If there is no loan for the given arguments, throw an invalid_argument exception with the message Loan could not be found. You will need to update to throw exceptions.
+
+Getters and Setters of three vectors from pa9 should be removed.
+
+Class Book
+Member Variables
+Is an abstract class. numPages and its associated getter/setter functions are removed.
+
+title: string : The title of the book
+
+numPages : int : The number of pages the book contains.
+
+Member Functions
+Constructors: initialize the object correctly.
+
+Destructor: sets all pointers to nullptr. The Book class does not create or delete objects.
+
+checkOut: sets the checkedOutBy attribute to the given patron.
+
+isCheckedOut: returns true when checkedOutBy is not nullptr.
+
+returnBook: sets the checkedOutBy attribute to nullptr.
+
+getCurrentPatron: return checkedOutBy
+
+toString: a virtual function cannot be overridden in a derived class Returns a string representing the book.
+
+getBookSizeRepresentation: a pure vitual function Returns a string representing the page.
+
+toString() EXAMPLES:
+'Fairy Tale' has 608 pages.
+
+'The sin of the father' has a duration of 600:07.
+
+'Only time will tell' has 399 digital pages.
+
+Class PrintedBook : public Book
+Member Variables
+numPages : int : The number of pages the book contains.
+
+Member Functions
+Constructors: initialize the object correctly.
+
+Destructor: sets all pointers to nullptr. The Book class does not create or delete objects.
+
+Getter: return private variable correctly.
+
+getBookSizeRepresentation: Returns a string representing the page. The book size representation will be "has XXX pages."
+
+Class EBook : public Book
+Member Variables
+sizeCharacters : int : The number of characters in the book.
+
+charsPerPage : int : The number of characters that fit in a page.
+
+Member Functions
+Constructors: initialize the object correctly.
+
+Destructor: sets all pointers to nullptr. The Book class does not create or delete objects.
+
+Getters: return private variables correctly.
+
+getBookSizeRepresentation: Returns a string representing the page. The book size representation will be "has XXX digital pages."
+
+The number of digital pages is obtained by dividing the total number of character in the book by the number of characters that fit in a page. Then, rounding up the result.
+
+EBOOK'S EXAMPLE
+If an ebook has 10005 characters total and its charsPerPage = 100, then it has 101 digital pages.
+
+Class AudioBook : public Book
+Member Variables
+durationSeconds : int : The duration of an audiobook in seconds.
+
+Member Functions
+Constructors: initialize the object correctly.
+
+Destructor: sets all pointers to nullptr. The Book class does not create or delete objects.
+
+Getter: return private variable correctly.
+
+getBookSizeRepresentation: Returns a string representing the page. The book size representation will be "has a duration of MM:SS."
+
+MM stands for minutes and SS for seconds, obtained from the object's data. Both minutes and seconds must have a least two digits.
+
+Class Patron
+Member Variables
+name : string : The name of the patron
+
+address : string : The address of the patron
+
+phoneNumber: string : The phone number of the patron
+
+Member Functions
+Constructors: initialize the object correctly. Be careful with initializing the vector objects.
+
+Destructor: sets all pointers to nullptr. The Patron class does not create or delete objects.
+
+addCheckedBook: adds the book pointer to the checked books list.
+
+removeCheckedBook: searches for a pointer in the checked books list to match the given object. When found, the pointer is removed from the list.
+
+isBookCheckedOutByPatron: searches for a pointer in the checked books list to match the given book object. Returns true when found; false otherwise.
+
+Class Loan
+Member Variables
+Member Functions
+Constructors: initialize the object correctly. Be careful with initializing the vector objects.
+
+Destructor: sets all pointers to nullptr. The Patron class does not create or delete objects.
+
+getBook: return Book* of current loan.
+
+getPatron: return Patron* of current loan.
+
+getDueDate: return Date of current loan.
+
+Class Date
+Date.cpp and Date.h is provided in the template.
+
+UML Diagram
+vector(EBook*) ebooks
+*
+1
+vector(PrintedBook*) printedbooks
+*
+1
+vector(AudioBook*) audiobooks
+*
+1
+vector(Patron*) patrons
+*
+1
+vector(Loan*) loans
+*
+1
+vector(Book*) listCheckedBooks
+*
+1
+Patron* checkedOutBy
+0
+1
+Patron* checkedOutPatron
+0
+1
+Book* borrowedBook
+0
+1
+Date dueDate
+1
+Book
+-string title
++Book(const string &title)
++~Book()
++string getTitle() : const
++void setTitle(const string &title)
++Patron* getCurrentPatron()
++void checkOut(Patron* aPatron)
++void returnBook()
++bool isCheckedOut()
++virtual string toString() : final
++virtual string getBookSizeRepresentation() : const = 0
+PrintedBook
+-int numPages
++PrintedBook(const string &title, int numPages)
++~PrintedBook()
++int getNumPages() : const
++virtual string getBookSizeRepresentation() : const override
+EBook
+-int sizeCharacters
+-int charsPerPage
++EBook(const string &title, int sizeCharacters, int charsPerPage)
++~EBook()
++int getSizeCharacters() : const
++int getCharsPerPage() : const
++virtual string getBookSizeRepresentation() : const override
+AudioBook
+-int durationSeconds
++AudioBook(const string &title, int durationSeconds)
++~AudioBook()
++int getDurationSeconds() : const
++virtual string getBookSizeRepresentation() : const override
+Library
+-string name
++Library(const string &name)
++~Library()
++string getName() : const
++vector getBookList() : const
++vector getPatronList() : const
++vector getLoanList() : const
++Book* searchBook(const string &title)
++Patron* searchPatron(const string &name)
++void addPrintedBook(const string &title, int numPages)
++void addEBook(const string &title, int sizeCharacters, int charsPerPage)
++void addAudioBook(const string &title, int durationSeconds)
++void addPatron(const string &name, const string &address, const string &phoneNumber)
++void checkOutBook(Book* aBook, Patron* aPatron, int dueYear, int dueMonth, int dueDay)
++void returnBook(Book* aBook, Patron* aPatron)
+Patron
+-string name
+-string address
+-string phoneNumber
++Patron(const string &name, const string &address, const string &phoneNumber)
++~Patron()
++string getName() : const
++string getAddress() : const
++string getPhoneNumber() : const
++void setName(const string &name)
++void setAddress(const string &address)
++void setPhoneNumber(const string &phoneNumber)
++void addCheckedBook(Book* aBook)
++void removedCheckedBook(Book* aBook)
++bool isBookCheckedOutByPatron(Book* aBook)
+Loan
++Loan(Book* aBook, Patron* aPatron, int dueYear, int dueMonth, int dueDay)
++~Loan()
++Book* getBook() : const
++Patron* getPatron() : const
++Date getDueDate() : const
+Date
+-int year
+-int month
+-int day
++Date(int Year, int Month, int Day)
++~Date()
++bool isAfter(Date anotherDate)
++bool isAfter(int aYear, int aMonth, int aDay)
++int currentYear()
++int currentMonth()
++int currentDay()
+Development Tips
+Create all classes.
+Then add the methods to the .h files and generate their implementations in the .cpp files.
+Compile to check for errors.
+It is recommended to implement the Book and Patron classes, then the menu, and one operation from the menu to the Library and test it; e.g., add patron functionality completely.
+You can use the debugger to see that the objects are correctly created and stored in the library’s vectors.
+Be careful with the destructor implementation.
+In this assignment you will need to implement cross-referencing practices. Here is how this should be done:
+in A.h:
+...
+class B;
+
+class A{...}
+
+
+
+in B.h:
+...
+class A;
+
+class B{...}
+
+Testing
+To start, get comfortable testing your own methods using your own main program. Implement the functions, instantiate objects, and call the various methods. You can check outputs either by using the debugger or by sending things to the console using cout.
+
+Unit test files will be provided before the deadline for final debugging, but it is expected that you know how to check your own code without relying solely on the unit tests used by the autograder.
+
+This section will be updated with instructions on adding the unit tests to your code and a reminder Annoucement will be sent out via Canvas. It is recommended you have some kind of notifications for Course Annoucements enabled if you don't already.
+
+It is expected that you are able to test your programs thoroughly and carefully using your own methods and code. You may wish to cout certain lines to track output or what is being returned by a function. You may also wish to use the debugger as shown in class. Consider borderline cases and review the output correctly.
+You can debug using the console by inputting values to be tested and verifying that they are correct.
+Once you are confident your code is running as expected, you can run your code against the unit tests in the autograder.
+A makefile is not provided for this assignment. Instead, object files containing unit test code are provided for you and you must run the build commands to compile the unit tests. The files are still within the tests directory.
+Compiling
+It is expected that you are able to compile and run your own code without relying solely on other tools. Here is the general format for g++ (you leave out the [] characters when actually writing the commands ):
+
+g++ [relevant setting and flags. These usually start with a '-'] [list of files to link together separated by a space : .cpp, .o, .a etc] -o [name of the output file you wish to use]
+
+
+The g++ build command does use a few extra settings when compiling with the unit tests. The additional options and what they signify are explained here:
+
+-std=c++14 : This should be familiar to you as it is used in class every day. It specifies the version of the C++ standard library to use, which is C++14 for this class.
+
+-isystem ./tests/googletest/include : This tells g++ to treat that directory as a "system include directory." This essentially reduces the warning level for headers found in that directory, so warnings from those headers won't be as strict as for your main project files. This is useful for external libraries, like Google Test, so that you aren't flooded with warnings from code you didn't write.
+
+-g : This option adds debugging information to the executable file, which can be used by debugging tools such as GDB. This makes it possible to step through the code line-by-line and inspect variables while debugging.
+
+-Wall : Enables most of the commonly used warning flags for the compiler. It stands for "warn all". This helps catch common coding mistakes.
+
+-Wextra : Enables some additional warning flags that aren't covered by -Wall. It's useful for catching even more potential issues.
+
+-pthread : Enables support for multithreading with the pthreads library. This sets flags for both the preprocessor and linker. Google Test uses multithreading which is why we are including it.
+
+-lpthread: Links the pthread library to the resulting executable. In essence, it ensures that the threading functions you're using are available in the resulting binary.
+
+[.cpp files, .o files, and .a files] : Now, list off any .cpp source files, .o object files, and .a static library files that need to be included in the build. For all of these, you must include the relative file path for any files that aren't in your current working directory.
+
+You will first list off any .cpp files needed by your program to run. In general, if your code uses an #include "*.h" statement, you will put the corresponding .cpp file here.
+Then, add the object file for the test(s) you wish to run. Remember you must also include the relative file path if you are in a different working directory from the .o file (for example, ../tests/ if you are in the src folder or just tests/ if you at the root of the repo).
+Lastly, include the file gtest_main.a. This file contains the main program needed to launch the unit tests against your code.
+Remember: A build must include exactly one (1) main function so you can't include your own main when running the unit tests.
+-o : This option lets you specify the name of the file you want g++ to output the executable code. If a file with that name already exists, it will be overwritten. The default output file is a.out if you don't include this option.
+
+Here is an example of a build command that could be used for this assignment. In this example, the working directory is src:
+
+g++ -isystem ./tests/googletest/include -std=c++14 -g -Wall -Wextra -pthread -lpthread Book.cpp Patron.cpp Library.cpp ../tests/addPatron_test.o ../tests/gtest_main.a -o addPatron_test
+
+
+Modify it as needed to run the tests as you wish. The autograder will also still run on each push to your repo if you prefer to test that way.
+
+REMEMBER
+You should not soley rely on these unit tests to debug your code. It can be far more helpful to use the debugger to track down errors. The unit tests should be more of a "final check" rather than the only way you test your code.
+
+Running an executable
+./a.out : This is a command to run the compiled program (using a.out as an example). The ./ simply tells the shell to execute the program located in the current directory.
+
+Commands like g++ or cd are globally visible on the system PATH and therefore don't need their file paths included when they are invoked. Our executables are not globally visible and therefore need to be prefixed with their file paths.
+
+Rubric
+Here is the breakdown of the tests, what they test, and how many marks they are worth.
+
+Test Name	Description	Marks
+AudioBookToString_test	Ensures toString() of an audiobook work properly	10
+EBookToString_test	Ensures toString() of an ebook work properly	10
+PrintedBookToString_test	Ensures toString() of a papaer book work properly	10
+AddPatronCheckOutReturnExceptionHandling_test	Ensures addPatron, returnBook, checkOut methods throw exceptions properly if needed	20
+AddBookExceptionHandling_test	Ensures addPrintedBook, addEBook, addAudioBook methods throw exceptions properly if needed	20
+mainMenuSearchBook_ToString_test	Ensures SearchBook option (option 4) would return toString representation properly	10
+NOTE
+AudioBookToString_test, EBookToString_test, PrintedBookToString_test would create AudioBook/ EBook/ PrintedBook objects and then compare the return outputs of toString() functions to expected outputs. Remember that the book's titles are put in a single quotation in the return outputs
+mainMenuMenuBook_ToString_test would check whether the search book option in the mainMenu would return toString outputs properly.
+Grading and Policies
+Assignments on Canvas will be recorded out of 100 marks.
+The grading of homework is a combination of completeness and correctness of the outputs and programming style. Completeness and correctness (80 marks) will be assessed automatically through testing on GitHub Classroom, while instructors and TAs will assess the programming style (20 marks).
+CODE STYLE
+A detailed review of the code (style and rules) will be conducted.
+Elements to be considered:
+Documentation Comments. (see style guide)
+Code Indentation
+Clarity of the code.
+Variable naming and scope.
+Proper use of tools
+This includes following the coding style discussed during lectures.
+Function declaration and definition placing.
+Using of appropriate C++ structures and operations (e.g., static_cast, array/vector, etc.)
+Thought process.
+Although we don't assess performance, we assess that the development of the code was though through and the control structures were appropriately used.
+Exception Handling
+NAMING CONVENTIONS
+Follow the naming conventions used so far in class.
+Variables should be localized with the correct scope, datatype, and their names must be pnemonic.
+Coding style will be reviewed and your assessment grade may be impacted due to that as described in our syllabus.
+Remember that homework must be completed individually without help (human or AI).
+Submission
+BE AWARE
+If you don't sync (push) with the Classroom Repo, your work will not actually be submitted!
+
+Your Codespace will autosave as you go as a safety mechanism against unexpected crashes. However, these changes sit in a local copy that is not considered permanent. The autograder lives on GitHub not your Codespace. While you can run the tests in the Codespace, the Autograder cannot see your work unless you commit and sync your work back to GitHub to submit. You must commit and push to the Classroom repo to submit your assignment. No credit will be given for unsubmitted work.
+
+Double-check your submission
+Double checking your submission should be considered a mandatory step. It allows you to ensure that the tests run as expected on the Autograder itself. It is the final authority on the tests passing or not; even if you think your code works in the Codespace.
+
+If you still are having issues working with GitHub and Codespaces, first check the FAQ page to see if something there fixes your issue.
+Then, if your issue still isn't resolved, please meet with your TAs (Lexi and Anh) during office hours or come to an SSL session for assistance.

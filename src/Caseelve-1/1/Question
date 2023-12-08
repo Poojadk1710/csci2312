@@ -1,0 +1,25 @@
+Problem #1: (50 marks)
+ACCEPT EXTRA CREDIT #1
+Implement the Class Time from Figures 9.1 and 9.2 in the book
+Class Time:
+Add to Time a method void load(const string& s);
+The method takes a string (see format) and parses it to load the time object. In other words, the load method will take a string then, split it into substrings, and assign these values to the current Time object
+must use stringstream
+Override the operator<< for Time, which takes a ostream (so it can be printed to the console and saved to a file).
+friend can be used, but implementation must be provided on Time.cpp
+Main program:
+Has a vector of Time*
+Prompts an input filename from the user
+Read the file, then:
+For each line, it creates a Time object (ptr)
+Calls its load method and pastes the line as a parameter
+Save that object to the vector created above
+Then, ask the user for an output filename.
+For each Time object, save to the output file the return of toUniversalStandard() of the Time, a tab, and then save the time (use operator<<) and a new line.
+e.g. 20\t5\t5\n (\t represents a tab and \n a new line)
+File Format
+Files Format: The file has one line per time
+Input file: hours minutes seconds (using space as delimiter)
+e.g.: 14 20 3
+Output file: HH:MM:SS PM/AM hours minutes seconds (using \t to separate universal time from the time files. Time fields use space as delimiter)
+e.g.: 02:20:03 PM\t14 20 3

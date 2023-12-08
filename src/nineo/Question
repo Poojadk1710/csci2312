@@ -1,0 +1,354 @@
+You will extend/modify your pa8 implementation. This assignment will focus on inheritance between parent and child classes.
+
+Implementation Details
+Source Files
+Your main menu program will live inside a function called mainMenu which will take a library object as its only input parameter. It will return nothing. Put the prototype in a header function and the implementation in a menu.cpp file.
+
+Implement each class using a .h and .cpp (e.g., Book.h and Book.cpp) files.
+
+Menu Program
+Note: stricken through methods are removed from your PA8 implementation and replaced for those described after.
+
+This program will display a menu providing the library's users with several functions. Again, the menu will be implemented as its own function using a menu.h and menu.cpp file.
+
+Your application will display the following menu on the terminal console:
+
+INFO
+Updated from pa7. Implement the necessary changes.
+
+---------------------------------
+            Main Menu
+---------------------------------
+1) Add Patron
+2) Add Book
+3) Search for Patron
+4) Search for Book
+5) Check Out Book
+6) Return Book
+                         99) EXIT
+---------------------------------
+
+As the program starts, it instantiates the Library class. This object will represent the library, and all the calls to implement options 1 through 4 should call methods from this object.
+
+Option (1): the program asks the user for the patron’s name, address, and phone number and calls the library addPatron method.
+
+Option (2): will present a sub-menu to allow the user to add a printed book, an Ebook, or an Audiobook. For each one, the program asks the user for the book's title and the relavant information. Then, it calls the library addPrintedBook, addEbook, or addAudioBook method.
+
+---------------------------------
+            Add Book Menu
+---------------------------------
+1) Add Printed Book
+2) Add Ebook
+3) Add Audiobook
+---------------------------------
+
+Option (3): the program asks for a patron’s name and calls the searchPatron method from the library. If a patron matches the name (equality), it will print all the patron’s information to the console.
+
+Option (4): the program asks for a book’s title and calls the searchBook method from the library. If a book matches the title, it will print the book’s title and the number of pages to the console.
+
+Option (5): the program asks for a book’s title, a patron’s name, and the date the book will be due (format year month day). Then, search for the book and patron (see options 3 and 4). Call the checkOutBook method to complete the loan if both patron and book were found.
+
+Option (6): similarly, searches for book and patron and calls the returnBook method from the library object.
+
+Option (99): asks the user for confirmation and terminates the program.
+
+If your user inputs an Invalid Option, you should cout the phrase: "Invalid choice. Please try again." and end the line before asking for another input from the user.
+
+The program should keep running until the user selects to terminate the program.
+
+All objects (library, patron, books, and loans) should be allocated dynamically using pointers.
+
+Class Descriptions
+Getters and setter are not shown but you should still implement all relevant getters and setters.
+
+Class Library
+Member Variables
+name: string : Represents the name of the library
+
+patrons: vector<Patron*> : A vector used to store a list of all the patrons in the library
+
+loans: vector<Loan*> : A vector used to store all the loaned books and the patron who loaned it
+
+books: vector<Book*> : A vector used to store all the books present in the library
+
+printedbooks: vector<Book*> : A vector used to store all printed books present in the library
+
+ebooks: vector<Book*> : A vector used to store all ebooks present in the library
+
+audiobooks: vector<Book*> : A vector used to store all audiobooks present in the library
+
+Remember to allocate new Patron, Book, and Loan objects using dynamic memory and store a pointer to them in your vectors.
+
+Member Functions
+Constructors: initialize the object correctly. Be careful with initializing the vector objects.
+
+Destructor: deletes all loans, books, and patrons. Be careful with the order.
+
+searchBook: searches the books list for a book that matches the title. Returns the pointer to the object or nullptr. You will need to update this function because vector<Book*> books is removed.
+
+searchPatron: searches the patrons list for a patron that matches the name. Returns the pointer to the object or nullptr.
+
+addBook: when a book with the given title does not exist already (uses searchBook), it creates a new Book and adds it to the books list. If the book exists, do nothing.
+
+addPrintedBook: when a book with the given title does not exist already (uses searchBook), it creates a new PrintedBook and adds it to the printed books list. If the book exists, do nothing.
+
+addEBook: when a book with the given title does not exist already (uses searchBook), it creates a new EBook and adds it to the printed books list. If the book exists, do nothing.
+
+addAudioBook: when a book with the given title does not exist already (uses searchBook), it creates a new AudioBook and adds it to the books list. If the book exists, do nothing.
+
+addPatron: when a patron with the given title does not exist already (uses searchPatron), it creates a new Patron and adds it to the patrons list. If the patron exists, do nothing.
+
+checkOutBook: takes a book, a patron and a date’s data (checks object pointers are not null). If the book is not checked out, create a Loan object for that book, patron, and date, and add it to the loans list. Adds the book to the patrons (addChekedBook) and the patron to the book (checkOut)
+
+returnBook: takes a book and a patron (checks not null). Searches for the loan that has that book and patron. When found, remove the book from the patron object and remove the patron from the book object. Finally, remove the Loan pointer from the loans list.
+
+Class Book
+Member Variables
+Is an abstract class. numPages and its associated getter/setter functions are removed.
+
+title: string : The title of the book
+
+numPages : int : The number of pages the book contains.
+
+Member Functions
+Constructors: initialize the object correctly.
+
+Destructor: sets all pointers to nullptr. The Book class does not create or delete objects.
+
+checkOut: sets the checkedOutBy attribute to the given patron.
+
+isCheckedOut: returns true when checkedOutBy is not nullptr.
+
+returnBook: sets the checkedOutBy attribute to nullptr.
+
+getCurrentPatron: return checkedOutBy
+
+Class PrintedBook : public Book
+Member Variables
+numPages : int : The number of pages the book contains.
+
+Member Functions
+Constructors: initialize the object correctly.
+
+Destructor: sets all pointers to nullptr. The Book class does not create or delete objects.
+
+Getter: return private variable correctly.
+
+Class EBook : public Book
+Member Variables
+sizeCharacters : int : The number of characters in the book.
+
+charsPerPage : int : The number of characters that fit in a page.
+
+Member Functions
+Constructors: initialize the object correctly.
+
+Destructor: sets all pointers to nullptr. The Book class does not create or delete objects.
+
+Getters: return private variables correctly.
+
+Class AudioBook : public Book
+Member Variables
+durationSeconds : int : The duration of an audiobook in seconds.
+
+Member Functions
+Constructors: initialize the object correctly.
+
+Destructor: sets all pointers to nullptr. The Book class does not create or delete objects.
+
+Getter: return private variable correctly.
+
+Class Patron
+Member Variables
+name : string : The name of the patron
+
+address : string : The address of the patron
+
+phoneNumber: string : The phone number of the patron
+
+Member Functions
+Constructors: initialize the object correctly. Be careful with initializing the vector objects.
+
+Destructor: sets all pointers to nullptr. The Patron class does not create or delete objects.
+
+addCheckedBook: adds the book pointer to the checked books list.
+
+removeCheckedBook: searches for a pointer in the checked books list to match the given object. When found, the pointer is removed from the list.
+
+isBookCheckedOutByPatron: searches for a pointer in the checked books list to match the given book object. Returns true when found; false otherwise.
+
+Class Loan
+Member Variables
+Member Functions
+Constructors: initialize the object correctly. Be careful with initializing the vector objects.
+
+Destructor: sets all pointers to nullptr. The Patron class does not create or delete objects.
+
+getBook: return Book* of current loan.
+
+getPatron: return Patron* of current loan.
+
+getDueDate: return Date of current loan.
+
+Class Date
+Date.cpp and Date.h is provided in the template.
+
+UML Diagram
+vector(EBook*) ebooks
+*
+1
+vector(PrintedBook*) printedbooks
+*
+1
+vector(AudioBook*) audiobooks
+*
+1
+vector(Patron*) patrons
+*
+1
+vector(Loan*) loans
+*
+1
+vector(Book*) listCheckedBooks
+*
+1
+Patron* checkedOutBy
+0
+1
+Patron* checkedOutPatron
+0
+1
+Book* borrowedBook
+0
+1
+Date dueDate
+1
+Book
+-string title
++Book(const string &title)
++~Book()
++string getTitle() : const
++void setTitle(const string &title)
++Patron* getCurrentPatron()
++void checkOut(Patron* aPatron)
++void returnBook()
++bool isCheckedOut()
+PrintedBook
+-int numPages
++PrintedBook(const string &title, int numPages)
++~PrintedBook()
++int getNumPages() : const
+EBook
+-int sizeCharacters
+-int charsPerPage
++EBook(const string &title, int sizeCharacters, int charsPerPage)
++~EBook()
++int getSizeCharacters() : const
++int getCharsPerPage() : const
+AudioBook
+-int durationSeconds
++AudioBook(const string &title, int durationSeconds)
++~AudioBook()
++int getDurationSeconds() : const
+Library
+-string name
++Library(const string &name)
++~Library()
++string getName() : const
++vector getPrintedBookList() : const
++vector getEBookList() : const
++vector getAudioBookList() : const
++vector getPatronList() : const
++vector getLoanList() : const
++Book* searchBook(const string &title)
++Patron* searchPatron(const string &name)
++void addPrintedBook(const string &title, int numPages)
++void addEBook(const string &title, int sizeCharacters, int charsPerPage)
++void addAudioBook(const string &title, int durationSeconds)
++void addPatron(const string &name, const string &address, const string &phoneNumber)
++void checkOutBook(Book* aBook, Patron* aPatron, int dueYear, int dueMonth, int dueDay)
++void returnBook(Book* aBook, Patron* aPatron)
+Patron
+-string name
+-string address
+-string phoneNumber
++Patron(const string &name, const string &address, const string &phoneNumber)
++~Patron()
++string getName() : const
++string getAddress() : const
++string getPhoneNumber() : const
++void setName(const string &name)
++void setAddress(const string &address)
++void setPhoneNumber(const string &phoneNumber)
++void addCheckedBook(Book* aBook)
++void removedCheckedBook(Book* aBook)
++bool isBookCheckedOutByPatron(Book* aBook)
+Loan
++Loan(Book* aBook, Patron* aPatron, int dueYear, int dueMonth, int dueDay)
++~Loan()
++Book* getBook() : const
++Patron* getPatron() : const
++Date getDueDate() : const
+Date
+-int year
+-int month
+-int day
++Date(int Year, int Month, int Day)
++~Date()
++bool isAfter(Date anotherDate)
++bool isAfter(int aYear, int aMonth, int aDay)
++int currentYear()
++int currentMonth()
++int currentDay()
+Development Tips
+Create all classes.
+Then add the methods to the .h files and generate their implementations in the .cpp files.
+Compile to check for errors.
+It is recommended to implement the Book and Patron classes, then the menu, and one operation from the menu to the Library and test it; e.g., add patron functionality completely.
+You can use the debugger to see that the objects are correctly created and stored in the library’s vectors.
+Be careful with the destructor implementation.
+In this assignment you will need to implement cross-referencing practices. Here is how this should be done:
+in A.h:
+...
+class B;
+
+class A{...}
+
+
+
+in B.h:
+...
+class A;
+
+class B{...}
+
+Testing
+To start, get comfortable testing your own methods using your own main program. Implement the functions, instantiate objects, and call the various methods. You can check outputs either by using the debugger or by sending things to the console using cout.
+
+Unit test files will be provided before the deadline for final debugging, but it is expected that you know how to check your own code without relying solely on the unit tests used by the autograder.
+
+This section will be updated with instructions on adding the unit tests to your code and a reminder Annoucement will be sent out via Canvas. It is recommended you have some kind of notifications for Course Annoucements enabled if you don't already.
+
+It is expected that you are able to test your programs thoroughly and carefully using your own methods and code. You may wish to cout certain lines to track output or what is being returned by a function. You may also wish to use the debugger as shown in class. Consider borderline cases and review the output correctly.
+You can debug using the console by inputting values to be tested and verifying that they are correct.
+Once you are confident your code is running as expected, you can run your code against the unit tests in the autograder.
+A makefile is not provided for this assignment. Instead, object files containing unit test code are provided for you and you must run the build commands to compile the unit tests. The files are still within the tests directory.
+Compiling
+It is expected that you are able to compile and run your own code without relying solely on other tools. Here is the general format for g++ (you leave out the [] characters when actually writing the commands ):
+
+g++ [relevant setting and flags. These usually start with a '-'] [list of files to link together separated by a space : .cpp, .o, .a etc] -o [name of the output file you wish to use]
+
+
+The g++ build command does use a few extra settings when compiling with the unit tests. The additional options and what they signify are explained here:
+
+-std=c++14 : This should be familiar to you as it is used in class every day. It specifies the version of the C++ standard library to use, which is C++14 for this class.
+
+-isystem ./tests/googletest/include : This tells g++ to treat that directory as a "system include directory." This essentially reduces the warning level for headers found in that directory, so warnings from those headers won't be as strict as for your main project files. This is useful for external libraries, like Google Test, so that you aren't flooded with warnings from code you didn't write.
+
+-g : This option adds debugging information to the executable file, which can be used by debugging tools such as GDB. This makes it possible to step through the code line-by-line and inspect variables while debugging.
+
+-Wall : Enables most of the commonly used warning flags for the compiler. It stands for "warn all". This helps catch common coding mistakes.
+
+-Wextra : Enables some additional warning flags that aren't covered by -Wall. It's useful for catching even more potential issues.
+
+-pthread : Enables support for multithreading with the pthreads library. This sets flags for both the preprocessor and linker. Google Test uses multithr
